@@ -13,7 +13,6 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text=""
         android:ems="10"
         android:hint="SCode"
         android:id="@+id/editText2"
