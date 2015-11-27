@@ -72,13 +72,13 @@ public class Train extends Activity {
 
                                              }
 
-            RecyclerAdapter rad = new RecyclerAdapter(TrainBetween.this, name, number, dest_arr, sour_dept, to, from);
+           // RecyclerAdapter rad = new RecyclerAdapter(TrainBetween.this, name, number, dest_arr, sour_dept, to, from);
 
-             StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+             //StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
 
-                     rv.setLayoutManager(lm);
-                     rv.setHasFixedSize(true);
-                     rv.setAdapter(rad);
+               //      rv.setLayoutManager(lm);
+                 //    rv.setHasFixedSize(true);
+                   //  rv.setAdapter(rad);
 
 
                       for (int z = 0; z < name.size(); z++) {
