@@ -1,5 +1,6 @@
 package com.example.anshul.findtrains;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -14,6 +15,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,7 @@ import static com.example.anshul.findtrains.MainActivity.*;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    StringBuilder sb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<String> fullname = new ArrayList<String>();
 
         try{// start
-            String response = new MainActivity.Task().execute("http://api.railwayapi.com/route/train/" + number + "/apikey/cfpwq4935/").get();
+            String response = new Task().execute("http://api.railwayapi.com/route/train/" + number + "/apikey/cfpwq4935/").get();
             JSONObject jsonObject = new JSONObject(response);
             StringBuilder sb1 = new StringBuilder();
             JSONArray jsonArray = jsonObject.getJSONArray("route");
@@ -135,8 +142,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         String response = getIntent().getExtras().getString("response");
-        Toast.makeText(MapsActivity.this, response, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(MapsActivity.this, response, Toast.LENGTH_SHORT).show();
         getLatLong(response);
 
+    }
+    public String getRoute(String tnumber) {
+        try {
+
+            URL url = new URL(tnumber);
+            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+            huc.connect();
+            InputStream is = huc.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            sb = new StringBuilder();
+            String brVal = " ";
+            while ((brVal = br.readLine()) != null) {
+                sb.append(brVal);
+            }
+
+
+        } catch (Exception e) {
+
+        }
+        return sb.toString();
+    }
+
+    public class Task extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            String response = getRoute(params[0]);
+            return response;
+        }
     }
 }
